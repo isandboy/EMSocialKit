@@ -402,7 +402,7 @@ static NSString *const WeiboUserInfoURL         = @"https://api.weibo.com/2/user
     }
     
     [presentingController presentViewController:navigationController animated:YES completion:^{
-        webController.webView.delegate = self;
+        webController.webView.navigationDelegate = self;
     }];
     
 }
