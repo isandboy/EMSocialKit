@@ -39,7 +39,7 @@ static NSString *const kQQGetUserInfoURL        = @"https://graph.qq.com/user/ge
 //static NSString *const kQQAccessTokenURL        = @"https://xui.ptlogin2.qq.com/cgi-bin/xlogin";
 static NSString *const kQQRedirectURL           = @"auth://www.qq.com";
 
-@interface EMActivityQQ() <UIWebViewDelegate>
+@interface EMActivityQQ() <WKNavigationDelegate>
 
 @property (nonatomic, strong) UIImage *shareImage;  // only support one image
 @property (nonatomic, strong) UIImage *thumbImage;  // only support one image
@@ -487,7 +487,7 @@ static NSString *const kQQRedirectURL           = @"auth://www.qq.com";
     }
 
     [presentingController presentViewController:navigationController animated:YES completion:^{
-        webController.webView.delegate = self;
+        webController.webView.navigationDelegate = self;
     }];
 }
 
@@ -589,8 +589,10 @@ static NSString *const kQQRedirectURL           = @"auth://www.qq.com";
     [task resume];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *URL = [request URL];
+#pragma mark - WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *URL = [navigationAction.request URL];
     if ([kQQRedirectURL rangeOfString:[URL host]].length > 0) {
 
         NSDictionary *parameters = [[URL fragment] SK_URLParameters];
@@ -616,12 +618,11 @@ static NSString *const kQQRedirectURL           = @"auth://www.qq.com";
         }
 
         [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
 
-    return YES;
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
-
 
 - (void)dealloc {
     self.webAuthNavigationController = nil;

@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 @interface EMSocialWebViewController : UIViewController
 
-@property (nonatomic, readonly, strong) UIWebView* webView;
+@property (nonatomic, readonly, strong) WKWebView* webView;
 
 - (instancetype)initWithURL:(NSURL *)URL;
 

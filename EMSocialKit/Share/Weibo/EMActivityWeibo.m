@@ -27,7 +27,7 @@ static NSString *const WeiboAutorizeURL         = @"https://open.weibo.cn/oauth2
 static NSString *const WeiboAccessTokenURL      = @"https://api.weibo.com/oauth2/access_token";
 static NSString *const WeiboUserInfoURL         = @"https://api.weibo.com/2/users/show.json";
 
-@interface EMActivityWeibo () <UIWebViewDelegate>
+@interface EMActivityWeibo () <WKNavigationDelegate>
 
 @property (nonatomic, strong) UIImage *shareImage; // only support one image
 @property (nonatomic, strong) NSString *shareString;
@@ -441,8 +441,10 @@ static NSString *const WeiboUserInfoURL         = @"https://api.weibo.com/2/user
     [task resume];
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSURL *URL = [request URL];
+#pragma mark - WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+    NSURL *URL = [navigationAction.request URL];
     if ([[self redirectURI] rangeOfString:[URL host]].length > 0) {
 
         NSDictionary *parameters = [[URL query] SK_URLParameters];
@@ -461,12 +463,10 @@ static NSString *const WeiboUserInfoURL         = @"https://api.weibo.com/2/user
         }];
 
         [[UIApplication sharedApplication].keyWindow.rootViewController dismissViewControllerAnimated:YES completion:NULL];
-        return NO;
+        decisionHandler(WKNavigationActionPolicyCancel);
     }
-    
-    return YES;
+    decisionHandler(WKNavigationActionPolicyAllow);
 }
-
 
 #pragma mark -
 #pragma mark Private Methods

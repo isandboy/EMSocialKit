@@ -153,7 +153,6 @@
 				94FA51121AB8282700A81E96 /* Frameworks */,
 				94FA51131AB8282700A81E96 /* Resources */,
 				7250AD35C7DC15121D0387E1 /* [CP] Embed Pods Frameworks */,
-				BFC20C1884865815C88504E2 /* [CP] Copy Pods Resources */,
 				D47D813607F0D31D97E11048 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -221,7 +220,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-EMSocialApp/Pods-EMSocialApp-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-EMSocialApp/Pods-EMSocialApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/EMSocialKit/EMSocialKit.framework",
 				"${BUILT_PRODUCTS_DIR}/JRSwizzle/JRSwizzle.framework",
 			);
@@ -232,22 +231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EMSocialApp/Pods-EMSocialApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BFC20C1884865815C88504E2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EMSocialApp/Pods-EMSocialApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-EMSocialApp/Pods-EMSocialApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D47D813607F0D31D97E11048 /* Embed Pods Frameworks */ = {

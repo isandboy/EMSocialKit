@@ -8,9 +8,9 @@
 
 #import "EMSocialWebViewController.h"
 
-@interface EMSocialWebViewController () <UIWebViewDelegate>
+@interface EMSocialWebViewController () <WKNavigationDelegate>
 
-@property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic, strong) WKWebView *webView;
 @property (nonatomic, strong) NSURLRequest* loadRequest;
 
 @end
@@ -18,9 +18,8 @@
 @implementation EMSocialWebViewController
 
 - (void)dealloc {
-    _webView.delegate = nil;
+    _webView.navigationDelegate = nil;
 }
-
 
 - (instancetype)initWithURL:(NSURL *)URL {
     return [self initWithRequest:[NSURLRequest requestWithURL:URL]];
@@ -44,9 +43,10 @@
     UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
     self.navigationItem.rightBarButtonItem = cancelItem;
     
-    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    WKWebViewConfiguration *configuration = [[WKWebViewConfiguration alloc] init];
+    self.webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:configuration];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.webView.delegate = self;
+    self.webView.navigationDelegate = self;
     [self.view addSubview:self.webView];
     
     if (nil != self.loadRequest) {
